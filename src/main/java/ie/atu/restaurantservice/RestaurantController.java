@@ -22,6 +22,7 @@ public class RestaurantController {
         return restaurantRepository.findAll();
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/getMenu/{restaurantId}")
     public List<MenuItem> getMenuItems(@PathVariable String restaurantId) {
         return menuRepository.findByRestaurantId(restaurantId.toLowerCase().replaceAll(" ", ""));
