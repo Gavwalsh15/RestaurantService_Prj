@@ -15,10 +15,12 @@ import java.util.Optional;
 public class RestaurantController {
     private final RestaurantRepository restaurantRepository;
     private final MenuItemService menuItemService;
+    private final OrderRepository orderRepository;
 
-    public RestaurantController(RestaurantRepository restaurantRepository, MenuItemService menuItemService) {
+    public RestaurantController(RestaurantRepository restaurantRepository, MenuItemService menuItemService, OrderRepository orderRepository) {
         this.restaurantRepository = restaurantRepository;
         this.menuItemService = menuItemService;
+        this.orderRepository = orderRepository;
     }
 
     @GetMapping("/readRestaurant")
@@ -53,7 +55,16 @@ public class RestaurantController {
 
     @PostMapping("/addNewOrder")
     public ResponseEntity<Order> addNewOrder(@Valid @RequestBody Order order) {
+        return new ResponseEntity<>(orderRepository.save(order), HttpStatus.CREATED);
+    }
 
-        return new ResponseEntity<>(order, HttpStatus.CREATED);
+    @GetMapping("/get-orders-restaurant/{restaurantId}")
+    public List<Order> getRestaurantOrders(@PathVariable String restaurantId) {
+        return orderRepository.findAllByRestaurantId(restaurantId);
+    }
+
+    @GetMapping("/get-orders-customer/{username}")
+    public List<Order> getCustomersOrder(@PathVariable String username) {
+        return orderRepository.findAllByUsername(username);
     }
 }
