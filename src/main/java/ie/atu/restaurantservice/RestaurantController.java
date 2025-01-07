@@ -1,9 +1,11 @@
 package ie.atu.restaurantservice;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -38,4 +40,16 @@ public class RestaurantController {
     public MenuItem addMenu(@Valid @RequestBody MenuItem menuItem) {
         return menuRepository.save(menuItem);
     }
+
+    //for reviewService
+    @GetMapping("/{id}")
+    public ResponseEntity<String> getRestaurantNameById(@PathVariable String id) {
+        // Find restaurant by ID
+        Optional<Restaurant> restaurant = restaurantRepository.findById(Long.valueOf(id));
+
+        // Return the restaurant name if found, or 404 Not Found
+        return restaurant.map(r -> ResponseEntity.ok(r.getTitle()))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
 }
