@@ -63,6 +63,7 @@ public class RestaurantController {
         return orderRepository.findAllByRestaurantId(restaurantId);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/get-orders-customer/{username}")
     public List<Order> getCustomersOrder(@PathVariable String username) {
         return orderRepository.findAllByUsername(username);
