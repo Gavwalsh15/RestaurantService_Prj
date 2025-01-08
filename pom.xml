@@ -119,15 +119,18 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.6.0</version>
                 <configuration>
                     <configLocation>sun_checks.xml</configLocation>
+                    <encoding>UTF-8</encoding>
+                    <consoleOutput>true</consoleOutput>
                     <failsOnError>false</failsOnError>
+                    <linkXRef>false</linkXRef>
                     <outputFile>${project.build.directory}/checkstyle-result.txt</outputFile>
-                    <outputFileFormat>plain</outputFileFormat>
                 </configuration>
                 <executions>
                     <execution>
+                        <id>validate</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>check</goal>
