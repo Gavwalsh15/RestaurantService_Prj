@@ -38,7 +38,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: checkstyle-report
-          path: target/checkstyle-result.txt
+          path: ./checkstyle-result.txt
 
   test:
     runs-on: ubuntu-latest
@@ -71,11 +71,31 @@ jobs:
       - name: Build Docker image
         run: docker build -t product-pipe-image .
 
+      - name: Save Docker image to file
+        run: docker save product-pipe-image -o product-pipe-image.tar
+
+      - name: Upload Docker image tarball
+        uses: actions/upload-artifact@v3
+        with:
+          name: product-pipe-image
+          path: product-pipe-image.tar
+
   docker_push:
     runs-on: ubuntu-latest
     needs: docker_build
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download Docker image tarball
+        uses: actions/download-artifact@v3
+        with:
+          name: product-pipe-image
+
+      - name: Load Docker image
+        run: docker load -i product-pipe-image.tar
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
@@ -86,3 +106,4 @@ jobs:
         run: |
           docker tag product-pipe-image ${{ secrets.DOCKER_USERNAME }}/product_pipe_image:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/product_pipe_image:latest
+  
