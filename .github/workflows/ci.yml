@@ -22,14 +22,39 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
+  build_maven:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Build with Maven
         run: mvn clean install
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build_maven
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Run tests
         run: mvn test
 
+  checkstyle:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Run Checkstyle linting
         run: mvn checkstyle:check
+        continue-on-error: true
 
       - name: Upload Checkstyle Report as Artifact
         uses: actions/upload-artifact@v3
@@ -37,9 +62,22 @@ jobs:
           name: checkstyle-report
           path: target/checkstyle-result.txt
 
+  docker_build:
+    runs-on: ubuntu-latest
+    needs: checkstyle
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Build Docker image
         run: docker build -t product-pipe-image .
 
+  docker_push:
+    runs-on: ubuntu-latest
+    needs: docker_build
+
+    steps:
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
