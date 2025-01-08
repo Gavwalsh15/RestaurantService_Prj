@@ -3,10 +3,10 @@ name: Java CI with Maven
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
   build:
@@ -31,11 +31,11 @@ jobs:
       - name: Run Checkstyle linting
         run: mvn checkstyle:check
 
-      - name: Upload Checkstyle HTML Report as Artifact
+      - name: Upload Checkstyle Report as Artifact
         uses: actions/upload-artifact@v3
         with:
           name: checkstyle-report
-          path: target/checkstyle-result.html
+          path: target/checkstyle-result.txt
 
       - name: Build Docker image
         run: docker build -t product-pipe-image .
