@@ -126,7 +126,7 @@
                     <consoleOutput>true</consoleOutput>
                     <failsOnError>false</failsOnError>
                     <linkXRef>false</linkXRef>
-                    <outputFile>${project.build.directory}/checkstyle-result.txt</outputFile>
+                    <outputFile>${project.build.directory}/target/checkstyle-result.txt</outputFile>
                     <maxViolations>10000</maxViolations>
                     <skip>true</skip>
                 </configuration>
