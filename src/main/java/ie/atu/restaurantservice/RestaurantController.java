@@ -68,4 +68,16 @@ public class RestaurantController {
     public List<Order> getCustomersOrder(@PathVariable String username) {
         return orderRepository.findAllByUsername(username);
     }
+
+    //for reviewService
+    @GetMapping("/{id}")
+    public ResponseEntity<String> getRestaurantNameById(@PathVariable String id) {
+        // Find restaurant by ID
+        Optional<Restaurant> restaurant = restaurantRepository.findById(Long.valueOf(id));
+
+        // Return the restaurant name if found, or 404 Not Found
+        return restaurant.map(r -> ResponseEntity.ok(r.getTitle()))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
 }
