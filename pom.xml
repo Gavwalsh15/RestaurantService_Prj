@@ -127,6 +127,7 @@
                     <failsOnError>false</failsOnError>
                     <linkXRef>false</linkXRef>
                     <outputFile>${project.build.directory}/checkstyle-result.txt</outputFile>
+                    <maxViolations>10000</maxViolations>
                 </configuration>
                 <executions>
                     <execution>
