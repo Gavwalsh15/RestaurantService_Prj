@@ -72,7 +72,7 @@ jobs:
 
   docker_build:
     runs-on: ubuntu-latest
-    needs: checkstyle
+    needs: test
 
     steps:
       - name: Checkout repository
@@ -82,6 +82,9 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build-artifacts
+
+      - name: Copy JAR to Docker context
+        run: cp target/*.jar ./app.jar
 
       - name: Build Docker image
         run: docker build -t product-pipe-image .
