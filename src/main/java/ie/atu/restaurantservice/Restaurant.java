@@ -1,25 +1,22 @@
 package ie.atu.restaurantservice;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
+@Table(name = "restaurants")
 public class Restaurant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     private String restaurantId;
 
@@ -28,7 +25,7 @@ public class Restaurant {
     private String title;
 
     @NotBlank(message = "Image URL is required.")
-    @Pattern(regexp = "^(https?|ftp)://[^\s/$.?#].[^\s]*$", message = "Please provide a valid image URL.")
+    @Pattern(regexp = "^https://[^\s/$.?#].[^\s]*$", message = "Please provide a valid image URL.")
     private String image;
 
     @NotBlank(message = "Address is required.")
@@ -42,4 +39,10 @@ public class Restaurant {
     @NotBlank(message = "Description is required.")
     @Size(max = 500, message = "Description cannot exceed 500 characters.")
     private String description;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MenuItem> menuItems;
+
 }
+
