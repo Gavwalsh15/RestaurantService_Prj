@@ -124,7 +124,7 @@
                     <configLocation>google_checks.xml</configLocation>
                     <failsOnError>false</failsOnError>
                     <outputFile>${project.build.directory}/checkstyle-result.html</outputFile>
-                    <outputFileFormat>html</outputFileFormat>
+                    <outputFileFormat>plain</outputFileFormat>
                 </configuration>
                 <executions>
                     <execution>
