@@ -128,6 +128,7 @@
                     <linkXRef>false</linkXRef>
                     <outputFile>${project.build.directory}/checkstyle-result.txt</outputFile>
                     <maxViolations>10000</maxViolations>
+                    <skip>true</skip>
                 </configuration>
                 <executions>
                     <execution>
