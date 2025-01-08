@@ -39,7 +39,9 @@ public class Order {
     }
 
     @Data
-    private static class OrderItem {
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class OrderItem {
 
         @NotBlank(message = "Item name is required.")
         private String name;

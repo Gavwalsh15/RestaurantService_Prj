@@ -33,6 +33,7 @@ public class MenuItem {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
+    //Needed Cause get request was recursive..
     @Override
     public String toString() {
         return "MenuItem{" +
